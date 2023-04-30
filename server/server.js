@@ -29,22 +29,16 @@ MongoClient.connect(
     });
   }
 );
-const signup = [
-  {
-    username: "",
-    password: "",
-    name: "",
-  },
-];
+
 app.get("/", (req, res) => {
   console.log("??");
 });
 
-app.get("/sign", (req, res) => {
+app.get("/sign/", (req, res) => {
   console.log("sign request");
 });
 
-app.post("/sign", (req, res) => {
+app.post("/sign/", (req, res) => {
   const { username, password } = req.body;
   db.collection("user").insertOne({
     username: req.body.username,
@@ -77,7 +71,8 @@ app.post(
     failureRedirect: "/fail", // 실패하면 여기로 이동
   }),
   (req, res) => {
-    console.log("로그인 성공"); // 성공하면 여기로 보내주세요
+    console.log("로그인 성공");
+    res.send("로그인 성공"); // 성공하면 여기로 보내주세요
   }
 );
 
