@@ -38,15 +38,34 @@ app.get("/sign/", (req, res) => {
   console.log("sign request");
 });
 
-app.post("/sign/", (req, res) => {
+// app.post("/sign/", (req, res) => {
+//   const { username, password } = req.body;
+//   db.collection("user").insertOne({
+//     username: req.body.username,
+//     password: bcrypt.hashSync(req.body.password, saltRounds),
+//     name: req.body.name,
+//   });
+//   console.log("회원가입 완료");
+//   res.redirect("/");
+// });
+app.post("/sign", (req, res) => {
   const { username, password } = req.body;
-  db.collection("user").insertOne({
-    username: req.body.username,
-    password: bcrypt.hashSync(req.body.password, saltRounds),
-    name: req.body.name,
-  });
-  console.log("회원가입 완료");
-  res.redirect("/");
+  db.collection("user")
+    .find({ username: req.body.username })
+    .toArray((err, results) => {
+      if (results.length > 0) {
+        console.log("이미 등록된 아이디");
+        res.redirect("/");
+      } else {
+        db.collection("user").insertOne({
+          username: req.body.username,
+          password: bcrypt.hashSync(req.body.password, saltRounds),
+          name: req.body.name,
+        });
+        console.log("회원가입 완료");
+        res.redirect("/");
+      }
+    });
 });
 
 const passport = require("passport");
