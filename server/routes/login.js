@@ -1,92 +1,21 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const MongoClient = require("mongodb").MongoClient; // DB연결
-const bcrypt = require("bcrypt"); // 패스워드 해싱
-const saltRounds = 10; // salt를 생성하는데 필요한 라운드 수
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-
-// MongoDB 연결
-var db;
-const uri =
-  "mongodb+srv://admin:1q2w3e4r@cluster0.yvz01u3.mongodb.net/?retryWrites=true&w=majority";
-MongoClient.connect(
-  uri,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  (err, client) => {
-    if (err) return console.log(err);
-    db = client.db("Movie");
-    console.log("Connected to MongoDB");
-    // 서버 실행
-    app.listen(4000, () => {
-      console.log("Server started on port 4000");
-    });
-  }
-);
-
-app.get("/", (req, res) => {
-  console.log("??");
-});
-
-app.get("/sign", (req, res) => {
-  console.log("sign request");
-});
-
-// app.post("/sign/", (req, res) => {
-//   const { username, password } = req.body;
-//   db.collection("user").insertOne({
-//     username: req.body.username,
-//     password: bcrypt.hashSync(req.body.password, saltRounds),
-//     name: req.body.name,
-//   });
-//   console.log("회원가입 완료");
-//   res.redirect("/");
-// });
-app.post("/sign", (req, res) => {
-  const { username, password } = req.body;
-  db.collection("user")
-    .find({ username: req.body.username }) // 입력한 id와 db에 저장된 id 검사
-    .toArray((err, results) => {
-      if (results.length > 0) {
-        // 결과값이 1 이상일 경우 이미 있는 id
-        console.log("이미 등록된 아이디");
-        res.redirect("/sign");
-      } else {
-        // 등록된 id가 없다면 회원가입 진행
-        db.collection("user").insertOne({
-          username: req.body.username,
-          password: bcrypt.hashSync(req.body.password, saltRounds),
-          name: req.body.name,
-          birth: req.body.birth,
-          sex: req.body.sex,
-        });
-        console.log("회원가입 완료");
-        res.redirect("http://localhost:3000/");
-      }
-    });
-});
-
+const router = require("express").Router();
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 
-app.use(session({ secret: "secret", resave: true, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(passport.session());
+router.use(passport.initialize());
+router.use(passport.session());
+router.use(
+  session({ secret: "secret", resave: true, saveUninitialized: false })
+);
 
 // 로그인하면 아이디비번 검사
 
-app.get("/login", (req, res) => {
+router.get("/", (req, res) => {
   console.log("로그인 요청");
 });
 
-app.post(
+router.post(
   "/login",
   // local 방식으로 회원인증
   passport.authenticate("local", {
@@ -158,7 +87,9 @@ passport.serializeUser((user, done) => {
 
 // 마이페이지 접속시 발동 디비에서 위에 있는 user.id로 유저를 찾은 뒤에 유저정보를 {요기에 넣음}
 passport.deserializeUser((아이디, done) => {
-  db.collection("user").findOne({ username: 아이디 }, (err, result) => {
+  db.collection("login").findOne({ id: 아이디 }, (err, result) => {
     done(null, result);
   });
 });
+
+module.exports = router;
