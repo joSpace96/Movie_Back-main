@@ -122,7 +122,7 @@ passport.use(
   new LocalStrategy(
     {
       // 로그인후 세션에 저장할 껀지
-      usernameField: "username", // form에 입력한 id
+      usernameField: "username", // form에 입력한 id sad
       passwordField: "password", // form에 입력한 pw
       session: false,
       passReqToCallback: false, // id, pw 말고도 다른정보 검증시 true
