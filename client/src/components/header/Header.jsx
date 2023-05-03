@@ -13,7 +13,7 @@ const headerNav = [
   },
   {
     display: "검색 & 추천",
-    path: "/ChuChon",
+    path: "/chuChon",
   },
   {
     display: "영화",
@@ -25,11 +25,11 @@ const headerNav = [
   },
   {
     display: "게시판",
-    path: "/Board",
+    path: "/board/list",
   },
   {
     display: "로그인",
-    path: "/Login",
+    path: "/login",
   },
 ];
 
@@ -41,7 +41,10 @@ const Header = () => {
 
   useEffect(() => {
     const shrinkHeader = () => {
-      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      if (
+        document.body.scrollTop > 100 ||
+        document.documentElement.scrollTop > 100
+      ) {
         headerRef.current.classList.add("shrink");
       } else {
         headerRef.current.classList.remove("shrink");
@@ -54,13 +57,13 @@ const Header = () => {
   }, []);
 
   return (
-    <div ref={headerRef} className="header">
-      <div className="header__wrap container">
-        <div className="logo">
-          <img src={logo} alt="" />
-          <Link to="/">Movie Hunter</Link>
+    <div ref={headerRef} className='header'>
+      <div className='header__wrap container'>
+        <div className='logo'>
+          <img src={logo} alt='' />
+          <Link to='/'>Movie Hunter</Link>
         </div>
-        <ul className="header__nav">
+        <ul className='header__nav'>
           {headerNav.map((e, i) => (
             <li key={i} className={`${i === active ? "active" : ""}`}>
               <Link to={e.path}>{e.display}</Link>

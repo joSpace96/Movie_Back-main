@@ -17,7 +17,7 @@ const Login = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`${ServerApi}/login/`, {
+      const response = await axios.post(`${ServerApi}/login`, {
         username,
         password,
       });
@@ -64,7 +64,7 @@ const Login = (props) => {
           </Button>
           <br />
           <div className='sign'>
-            <Link to='/Sign' className='small'>
+            <Link to='/sign' className='small'>
               <h5>회원 가입</h5>
             </Link>
           </div>
