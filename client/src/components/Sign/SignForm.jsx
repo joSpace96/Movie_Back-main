@@ -39,10 +39,12 @@ const SignForm = () => {
     }
 
     try {
-      const response = await axios.post(`${ServerApi}/SignForm`, {
+      const response = await axios.post(`${ServerApi}/Sign`, {
         username,
         password,
         name,
+        birth,
+        sex,
       });
       alert("회원가입 성공");
       console.log(response);
@@ -66,9 +68,9 @@ const SignForm = () => {
         <form onSubmit={handleSubmit}>
           <header style={{ marginBottom: "10px" }}>회원가입</header>
           <Input
-            type="text"
+            type='text'
             style={{ marginBottom: "10px" }}
-            placeholder="아이디"
+            placeholder='아이디'
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
@@ -77,8 +79,8 @@ const SignForm = () => {
           />
           <br />
           <Input
-            type="password"
-            placeholder="비밀번호"
+            type='password'
+            placeholder='비밀번호'
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -101,8 +103,8 @@ const SignForm = () => {
           )}
           <br />
           <Input
-            type="password"
-            placeholder="비밀번호 확인"
+            type='password'
+            placeholder='비밀번호 확인'
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -110,8 +112,8 @@ const SignForm = () => {
           <br />
           <Input
             style={{ marginTop: "10px" }}
-            type="text"
-            placeholder="닉네임"
+            type='text'
+            placeholder='닉네임'
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -126,9 +128,9 @@ const SignForm = () => {
           <div style={{ marginTop: "10px" }}>
             <input
               style={{ marginLeft: "10px" }}
-              type="checkbox"
-              name="gender"
-              value="male"
+              type='checkbox'
+              name='gender'
+              value='male'
               checked={sex === "male"}
               onChange={HandleClickRadioButton}
             />
@@ -136,9 +138,9 @@ const SignForm = () => {
             <label>
               <input
                 style={{ marginLeft: "10px" }}
-                type="checkbox"
-                name="gender"
-                value="female"
+                type='checkbox'
+                name='gender'
+                value='female'
                 checked={sex === "female"}
                 onChange={HandleClickRadioButton}
               />
@@ -146,7 +148,7 @@ const SignForm = () => {
             </label>
           </div>{" "}
           <br />
-          <Button type="submit">회원가입</Button>
+          <Button type='submit'>회원가입</Button>
         </form>
       </Container>
     </div>

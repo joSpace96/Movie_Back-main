@@ -14,12 +14,6 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (localStorage.getItem("id")) {
-      navigate("/home");
-    }
-  }, [navigate]);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -40,37 +34,37 @@ const Login = (props) => {
 
   return (
     <div>
-      <div className="page-header" style={{ backgroundImage: `url(${bg})` }}>
+      <div className='page-header' style={{ backgroundImage: `url(${bg})` }}>
         <h2>로그인</h2>
       </div>
       <div
-        className="login-container"
+        className='login-container'
         style={{ backgroundImage: `url(${bg2})` }}
       >
         <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
-          <div className="id">
+          <div className='id'>
             <Input
-              type="text"
-              placeholder="아이디 입력"
+              type='text'
+              placeholder='아이디 입력'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <div className="password">
+          <div className='password'>
             <Input
-              type="password"
-              placeholder="비밀번호 입력"
+              type='password'
+              placeholder='비밀번호 입력'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <br />
-          <Button className="small" type="submit">
+          <Button className='small' type='submit'>
             로그인
           </Button>
           <br />
-          <div className="Sign">
-            <Link to="/Sign">
+          <div className='sign'>
+            <Link to='/Sign' className='small'>
               <h5>회원 가입</h5>
             </Link>
           </div>
